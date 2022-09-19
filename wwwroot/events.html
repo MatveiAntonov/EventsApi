@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Events</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Event list</h2>
+    <form name="eventForm">
+        <input type="hidden" name="id" value="0" />
+        <div class="form-group col-md-5">
+            <label for="name">Event theme:</label>
+            <input class="form-control" name="theme" />
+        </div>
+        <div class="form-group col-md-5">
+            <label for="Description">Description:</label>
+            <input class="form-control" name="description" />
+        </div>
+        <div class="form-group col-md-5">
+            <label for="Organizer">Event organizer:</label>
+            <input class="form-control" name="organizer" />
+        </div>
+        <div class="form-group col-md-5">
+            <label for="Speaker">Speaker:</label>
+            <input class="form-control" name="speaker" />
+        </div>
+        <div class="form-group col-md-5">
+            <label for="Time">Event time:</label>
+            <input class="form-control" name="time" type="datetime-local" />
+        </div>
+        <div class="form-group col-md-5">
+            <label for="Place">Place:</label>
+            <input class="form-control" name="place" />
+        </div>
+        <div class="panel-body">
+            <button type="submit" id="submit" class="btn btn-primary">Сохранить</button>
+            <a id="reset" class="btn btn-primary">Сбросить</a>
+        </div>
+    </form>
+    <table class="table table-condensed table-striped  col-md-6">
+        <thead><tr><th>Id</th><th>Theme</th><th>Description</th><th>Organizer</th><th>Speaker</th><th>Time</th><th>Place</th><th></th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        async function GetEvents() {
+            const response = await fetch("events", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const events = await response.json();
+                let rows = document.querySelector("tbody");
+                events.forEach(event => {
+                    rows.append(row(event));
+                });
+            }
+        }
+
+        async function GetEvent(id) {
+            const response = await fetch("events/" + id, {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const event = await response.json();
+                const form = document.forms["eventForm"];
+                form.elements["id"].value = event.id;
+                form.elements["theme"].value = event.theme;
+                form.elements["description"].value = event.description;
+                form.elements["organizer"].value = event.organizer;
+                form.elements["speaker"].value = event.speaker;
+                form.elements["time"].value = event.time;
+                form.elements["place"].value = event.place;
+            }
+        }
+
+        async function CreateEvent(eventTheme, eventDescription, eventOrganizer, eventSpeaker, eventTime, eventPlace) {
+
+            const response = await fetch("events", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    Theme: eventTheme,
+                    Description: eventDescription,
+                    Organizer: eventOrganizer,
+                    Speaker: eventSpeaker,
+                    Time: eventTime,
+                    Place: eventPlace
+                })
+            });
+            if (response.ok === true) {
+                const event = await response.json();
+                reset();
+                document.querySelector("tbody").append(row(event));
+            }
+        }
+
+        async function EditEvent(eventId ,eventTheme, eventDescription, eventOrganizer, eventSpeaker, eventTime, eventPlace) {
+            const response = await fetch("events", {
+                method: "PUT",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    Id: parseInt(eventId, 10),
+                    Theme: eventTheme,
+                    Description: eventDescription,
+                    Organizer: eventOrganizer,
+                    Speaker: eventSpeaker,
+                    Time: eventTime,
+                    Place: eventPlace
+                })
+            });
+            if (response.ok === true) {
+                const event = await response.json();
+                reset();
+                document.querySelector("tr[data-rowid='" + event.id + "']").replaceWith(row(event));
+            }
+        }
+
+        async function DeleteEvent(id) {
+            const response = await fetch("events/" + id, {
+                method: "DELETE",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const event = await response.json();
+                document.querySelector("tr[data-rowid='" + event.id + "']").remove();
+            }
+        }
+
+
+        function reset() {
+            console.log('test');
+            const form = document.forms["eventForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+
+        function row(event) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", event.id);
+
+            const idTd = document.createElement("td");
+            idTd.append(event.id);
+            tr.append(idTd);
+
+            const themeTd = document.createElement("td");
+            themeTd.append(event.theme);
+            tr.append(themeTd);
+
+            const descriptionTd = document.createElement("td");
+            descriptionTd.append(event.description);
+            tr.append(descriptionTd);
+
+            const organizerTd = document.createElement("td");
+            organizerTd.append(event.organizer);
+            tr.append(organizerTd);
+
+            const speakerTd = document.createElement("td");
+            speakerTd.append(event.speaker);
+            tr.append(speakerTd);
+
+            const timeTd = document.createElement("td");
+            timeTd.append(event.time);
+            tr.append(timeTd);
+
+            const placeTd = document.createElement("td");
+            placeTd.append(event.place);
+            tr.append(placeTd);
+
+            const linksTd = document.createElement("td");
+
+            const editLink = document.createElement("a");
+            editLink.setAttribute("data-id", event.Id);
+            editLink.setAttribute("style", "cursor:pointer;padding:15px;");
+            editLink.append("Изменить");
+            editLink.addEventListener("click", e => {
+
+                e.preventDefault();
+                GetEvent(event.id);
+            });
+            linksTd.append(editLink);
+
+            const removeLink = document.createElement("a");
+            removeLink.setAttribute("data-id", event.id);
+            removeLink.setAttribute("style", "cursor:pointer;padding:15px;");
+            removeLink.append("Удалить");
+            removeLink.addEventListener("click", e => {
+
+                e.preventDefault();
+                DeleteEvent(event.id);
+            });
+
+            linksTd.append(removeLink);
+            tr.appendChild(linksTd);
+
+            return tr;
+        }
+
+        document.getElementById("reset").addEventListener("click", e => {
+            e.preventDefault();
+            reset();
+        })
+
+        document.forms["eventForm"].addEventListener("submit", e => {
+            e.preventDefault();
+            const form = document.forms["eventForm"];
+            const id = form.elements["id"].value;
+            const theme = form.elements["theme"].value;
+            const description = form.elements["description"].value;
+            const organizer = form.elements["organizer"].value;
+            const speaker = form.elements["speaker"].value;
+            const time = form.elements["time"].value;
+            const place = form.elements["place"].value;
+
+            if (id == 0)
+                CreateEvent(theme, description, organizer, speaker, time, place);
+            else
+                EditEvent(id, theme, description, organizer, speaker, time, place);
+        });
+
+        GetEvents();
+
+    </script>
+</body>
+</html>

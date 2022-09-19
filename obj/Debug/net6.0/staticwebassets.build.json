@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "Hash": "k6d1imyY3xhzlv/sAarC8HBEgRhqArdd2drLhSJLP2Q=",
+  "Source": "EventsApi",
+  "BasePath": "_content/EventsApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "EventsApi\\wwwroot",
+      "Source": "EventsApi",
+      "ContentRoot": "D:\\IntProjs\\Modsen\\Events\\wwwroot\\",
+      "BasePath": "_content/EventsApi",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\IntProjs\\Modsen\\Events\\wwwroot\\events.html",
+      "SourceId": "EventsApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\IntProjs\\Modsen\\Events\\wwwroot\\",
+      "BasePath": "_content/EventsApi",
+      "RelativePath": "events.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\events.html"
+    },
+    {
+      "Identity": "D:\\IntProjs\\Modsen\\Events\\wwwroot\\index.html",
+      "SourceId": "EventsApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\IntProjs\\Modsen\\Events\\wwwroot\\",
+      "BasePath": "_content/EventsApi",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    }
+  ]
+}

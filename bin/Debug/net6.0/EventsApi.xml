@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EventsApi</name>
+    </assembly>
+    <members>
+        <member name="M:Events.Controllers.AccountController.Token(Events.Models.Person)">
+            <summary>
+            Returns the generated token for the user
+            </summary>
+            <param name="pers">The Person-object to which the token needs to be issued</param>
+        </member>
+        <member name="M:Events.Controllers.AccountController.Get">
+            <summary>
+            Simulation of providing data only to an authorized user
+            </summary>
+        </member>
+        <member name="M:Events.Controllers.EventsController.Get">
+            <summary>
+            Returns the full list of events from the database
+            </summary>
+        </member>
+        <member name="M:Events.Controllers.EventsController.Get(System.Int32)">
+            <summary>
+            Returns certain EventDto-object by id from the database
+            </summary>
+            <param name="id">Id of the specific user to return</param>
+        </member>
+        <member name="M:Events.Controllers.EventsController.Post(Events.Models.EventDto)">
+            <summary>
+            Adds certain Event-object to the database
+            </summary>
+            <param name="evtDto">The EventDto-object required to be added to the database</param>
+        </member>
+        <member name="M:Events.Controllers.EventsController.Put(Events.Models.EventDto)">
+            <summary>
+            Edit certain Event-object in the database
+            </summary>
+            <param name="evtDto">The EventDto-object required to be edited to the database</param>
+        </member>
+        <member name="M:Events.Controllers.EventsController.Delete(System.Int32)">
+            <summary>
+            Delete certain Event-object by id from the database
+            </summary>
+            <param name="id">Id of the specific user to delete</param>
+        </member>
+    </members>
+</doc>
